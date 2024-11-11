@@ -1,3 +1,5 @@
+
+/*
 import logo from './logo.svg';
 import './App.css';
 
@@ -23,3 +25,34 @@ function App() {
 }
 
 export default App;
+
+*/
+
+/*
+import React from "react";
+import Task from './Task';
+
+function App() {
+return (
+  <div>
+    <h1>To-Do List</h1>
+    <Task text="Buy grocieres" completed={false}/>
+    <Task text="go for run" completed={true}/>
+    <Task text="Read a Book" completed={true}/>
+  </div>
+);
+}
+export default App;
+*/
+/*
+import React from "react";
+import ProfilePage from "./ProfilePage";
+function App(){
+  return(
+    <div>
+      <ProfilePage />
+    </div>
+  );
+}
+export default App;
+*/
