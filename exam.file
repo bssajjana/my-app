@@ -1,0 +1,166 @@
+COURSE.java
+
+package com.example.restsqldemo;
+
+//import org.hibernate.annotations.Table;
+
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "course")
+public class Course {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer cid;
+	private String name;
+	private double price;
+
+	public Integer getCid() {
+		return cid;
+	}
+
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+}
+
+
+CourseRepository.java
+
+package com.example.restsqldemo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CourseRepository extends JpaRepository <Course, Integer>
+{}
+
+
+CourseRestController.java
+
+package com.example.restsqldemo;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CourseRestController {
+
+	@Autowired
+	private CourseService courseService;
+
+	@PostMapping("/course")
+	public ResponseEntity<String> createCourse(@RequestBody Course course) {
+		String status = courseService.upsert(course);
+		return new ResponseEntity<>(status, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/course/{cid}")
+	public ResponseEntity<Course> getCourse(@PathVariable Integer cid) {
+		Course course = courseService.getById(cid);
+		return new ResponseEntity<>(course, HttpStatus.OK);
+	}
+
+	@GetMapping("/courses")
+	public ResponseEntity<List<Course>> getcourses() {
+		List<Course> allcourses = courseService.getAllCourses();
+		return new ResponseEntity<>(allcourses, HttpStatus.OK);
+	}
+
+	@PutMapping("/course")
+	public ResponseEntity<String> updateCourse(@RequestBody Course cs) {
+		String status = courseService.upsert(cs);
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/course/{cid}")
+	public ResponseEntity<String> deletecourse(@PathVariable Integer cid) {
+		String status = courseService.deleteById(cid);
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+}
+
+CourseService.java
+
+package com.example.restsqldemo;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CourseService {
+
+	@Autowired
+	private CourseRepository courseRepo;
+
+	public String upsert(Course course) {
+		courseRepo.save(course);
+		return "Inserted Successfully";
+	}
+
+	public Course getById(Integer cid) {
+		java.util.Optional<Course> cs = courseRepo.findById(cid);
+		if (cs.isPresent()) {
+			return cs.get();
+		}
+		return null;
+	}
+
+	public List<Course> getAllCourses() {
+		return courseRepo.findAll();
+	}
+
+	public String deleteById(Integer cid) {
+		if (courseRepo.existsById(cid)) {
+			courseRepo.deleteById(cid);
+			return "Delete Success";
+		} else {
+			return "No Record Found";
+		}
+	}
+
+}
+
+
+APPLICATION.PROPERTIES
+
+# For MySQL
+spring.datasource.url=jdbc:mysql://localhost:3306/testdatabases1
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Hibernate-specific properties
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
