@@ -57,7 +57,7 @@ function App(){
 export default App;
 */
 
-
+/*
 import React, { Component } from 'react';
 class Counter extends Component{
   constructor(){
@@ -84,3 +84,30 @@ class Counter extends Component{
   }
 }
 export default Counter;
+*/
+
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Layout from "./components/Layout";
+import Contact from "./components/Contact";
+import Blogs from "./components/Blogs";
+
+export default function App() {
+  return (
+    
+      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />} >
+            <Route index element={<Home />}/>
+            <Route path="/Contact" element={<Contact/>} />
+            <Route path="/Blogs" element={<Blogs/>} />
+            
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    
+  );
+}
+//const root= ReactDOM.createRoot(document.getElementById('root'));
