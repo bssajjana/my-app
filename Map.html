@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>
+            Document
+        </title>
+        <script>const RegistrationData=newMap();
+        function Submitform(){
+
+
+            const Firstname=Document.regform.Firstname.value;
+            const Middlename=Document.regform.Middlename.value;
+            const Lastname=Document.regform.Lastname.value;
+            const RegisterNo=Document.regform.RegisterNo.value;
+
+
+            RegistrationData.set("firstname:",Firstname);
+            RegistrationData.set("Middlename:",Middlename);
+            RegistrationData.set("Lastname:",Lastname);
+            RegistrationData.set("registerno:",RegisterNo);
+
+            Document.write("<table border=3px text-align=center>");
+
+                Document.write("<tr>");
+                    Document.write("<th>firstname</th><th>Middlename</th><th>Lastname</th><th>registerno</th>");
+                    Document.write("</tr>");
+
+                    Document.write("<tr>");
+                        Document.write("<td>"+RegistrationData.get("firstname:")+"</td>");
+                        Document.write("<td>"+RegistrationData.get("Middlename:")+"</td>");
+                        Document.write("<td>"+RegistrationData.get("Lastname:")+"</td>");
+                        Document.write("<td>"+RegistrationData.get("registerno:")+"</td>");
+                    Document.write("</tr>");
+
+                    Document.write("</table> <br>");
+                    Document.write("Successfully register");
+                    
+                    }   
+
+        </script>
+    </head>
+
+    <body>
+        <center>
+            <from id="registerForm" name="regform">
+
+                <br><br><lable for="firstname">firstname</lable>
+                <input type="text" id="firstname" name="firstname" value=" ">
+
+                <br><br><lable for="Middlename">Middlename</lable>
+                <input type="text" id="Middlename" name="Middlename" value="">
+
+                <br><br><label for="Lastname">Lastname</label>
+                <input type="text" id="Lastname" name="Lastname" value="">
+                
+                <br><br><lable for="RegisterNo">registerNo</lable>
+                <input type="text" id="registerNo" name="registerNo" value="">
+
+                <br><br><br><input type="button" value="submit" onclick="Submitform()"/>
+
+            </from>
+        </center>
+    </body>
+</html>
